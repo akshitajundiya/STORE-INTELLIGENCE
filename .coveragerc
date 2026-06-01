@@ -1,0 +1,13 @@
+[run]
+source = app,pipeline
+omit =
+    pipeline/detect.py
+    pipeline/replay.py
+    pipeline/simulate.py
+    */__init__.py
+
+[report]
+exclude_lines =
+    pragma: no cover
+    if __name__ == .__main__.:
+    raise NotImplementedError

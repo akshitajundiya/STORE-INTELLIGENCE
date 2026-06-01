@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.db
+*.db-wal
+*.db-shm
+.pytest_cache/
+.coverage
+clips/
+*.mp4
+yolov8*.pt
+docs/store_floor_plan.png
+data/events.jsonl
+
+*.mp4
+clips/
+docs/store_floor_plan.png
+data/events.jsonl

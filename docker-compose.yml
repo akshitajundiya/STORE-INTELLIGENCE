@@ -1,0 +1,25 @@
+services:
+  api:
+    build: .
+    ports: ["8000:8000"]
+    volumes:
+      - dbdata:/data
+      - ./dashboard:/srv/dashboard:ro
+    environment:
+      DB_PATH: /data/store_intel.db
+    healthcheck:
+      test: ["CMD","python","-c","import urllib.request;urllib.request.urlopen('http://localhost:8000/health')"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+  # Dashboard is static; served by any web server. Simplest: open dashboard/index.html
+  # or run:  python -m http.server 8080 --directory dashboard
+  dashboard:
+    image: python:3.12-slim
+    working_dir: /srv
+    command: python -m http.server 8080 --directory /srv/dashboard
+    ports: ["8080:8080"]
+    volumes: ["./dashboard:/srv/dashboard:ro"]
+    depends_on: [api]
+volumes:
+  dbdata:
