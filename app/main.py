@@ -3,6 +3,7 @@ from __future__ import annotations
 import json, os
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from . import db, metrics as M, funnel as F, anomalies as A, health as H
 from .timewin import resolve_window
 from .ingestion import ingest_events, IngestBody, MAX_BATCH
@@ -10,6 +11,7 @@ from .logging_mw import StructuredLoggingMiddleware
 
 app = FastAPI(title="Store Intelligence API", version="1.0.0")
 app.add_middleware(StructuredLoggingMiddleware)
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 @app.exception_handler(db.DBUnavailable)
 async def _down(request: Request, exc: db.DBUnavailable):

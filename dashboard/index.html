@@ -36,7 +36,7 @@ h1{font-size:20px;margin:0 0 2px}.sub{color:var(--mut);font-size:13px;margin-bot
 <div class="card" style="margin-top:14px"><div class="k">Active Anomalies</div><div id="anoms"></div></div>
 </div>
 <script>
-const API = location.origin.includes("file") ? "http://localhost:8000" : "";
+const API = "http://localhost:8000";
 const S = "STORE_BLR_002";
 async function j(p){const r=await fetch(API+p);return r.json();}
 async function tick(){
