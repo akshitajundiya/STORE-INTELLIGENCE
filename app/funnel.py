@@ -16,17 +16,28 @@ def compute_funnel(store_id, start_ep, end_ep) -> FunnelResponse:
     converted = converted_visitors(store_id, sessions, start_ep, end_ep, window_s)
 
     n_entry = sum(1 for s in sessions.values() if s.entered)
-    n_zone = sum(1 for s in sessions.values() if s.entered and s.zones_visited)
+    # Fix: count sessions with zone visits regardless of entry camera linkage
+    # (cross-camera dedup gap means floor camera visitors have separate visitor_ids)
+    n_zone = sum(1 for s in sessions.values() if s.zones_visited)
     n_bill = sum(1 for s in sessions.values() if s.joined_billing_queue)
     n_buy = len(converted)
+
+    # Use max of entry vs zone as funnel top to handle cross-camera gap
+    funnel_top = max(n_entry, n_zone)
 
     def stage(name, n, prev):
         return FunnelStage(stage=name, visitors=n,
                            drop_off_pct=round((1 - n/prev)*100, 1) if prev else 0.0)
-    stages = [stage("ENTRY", n_entry, n_entry), stage("ZONE_VISIT", n_zone, n_entry),
-              stage("BILLING_QUEUE", n_bill, n_zone), stage("PURCHASE", n_buy, n_bill)]
+
+    stages = [
+        stage("ENTRY", funnel_top, funnel_top),
+        stage("ZONE_VISIT", n_zone, funnel_top),
+        stage("BILLING_QUEUE", n_bill, n_zone if n_zone else 1),
+        stage("PURCHASE", n_buy, n_bill if n_bill else 1),
+    ]
     return FunnelResponse(store_id=store_id, sessions=len(sessions), stages=stages,
                           data_confidence="LOW" if len(sessions) < 20 else "OK")
+
 
 def compute_heatmap(store_id, start_ep, end_ep) -> HeatmapResponse:
     lay = LAYOUT.get(store_id)
