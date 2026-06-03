@@ -1,661 +1,180 @@
-{
-  "store_id": "STORE_BLR_002",
-  "store_name": "Brigade Road, Bangalore",
-  "source_store_id": "ST1008",
-  "open_hours": {
-    "open": "11:00",
-    "close": "22:00",
-    "tz": "Asia/Kolkata"
+[
+  {
+    "store_id": "STORE_BLR_002",
+    "store_name": "Brigade Road, Bangalore",
+    "source_store_id": "ST1008",
+    "open_hours": { "open": "11:00", "close": "22:00", "tz": "Asia/Kolkata" },
+    "_note": "Store 1 — 4 cameras. Zones derived from Brigade_Road layout. Polygons normalised [0..1].",
+    "pos_correlation": { "billing_zone": "BILLING", "window_seconds": 300 },
+    "billing_zone_id": "BILLING",
+    "entry_zone_id": "ENTRY",
+    "pos_correlation_window_seconds": 300,
+    "staff_roster_hint": ["uniform: black apron + Purplle tee"],
+    "cameras": [
+      {
+        "camera_id": "CAM_ENTRY_01",
+        "role": "entry",
+        "covers": ["ENTRY"],
+        "file_hint": "CAM 3",
+        "entry_line": [[0.1, 0.55], [0.4, 0.92]],
+        "inbound": "into_store"
+      },
+      {
+        "camera_id": "CAM_ZONE_01",
+        "role": "floor",
+        "covers": ["SKINCARE", "MAKEUP", "HAIRCARE", "FRAGRANCE", "ACCESSORIES"],
+        "file_hint": "CAM 1"
+      },
+      {
+        "camera_id": "CAM_ZONE_02",
+        "role": "floor",
+        "covers": ["NAIL_FRAGRANCE", "MAKEUP_UNIT_A", "MAKEUP_UNIT_B", "FOH"],
+        "file_hint": "CAM 2"
+      },
+      {
+        "camera_id": "CAM_BILLING_01",
+        "role": "billing",
+        "covers": ["BILLING", "PMU"],
+        "file_hint": "CAM 5"
+      }
+    ],
+    "zones": [
+      { "zone_id": "ENTRY", "type": "threshold", "camera_id": "CAM_ENTRY_01" },
+      {
+        "zone_id": "SKINCARE", "type": "shelf", "camera_id": "CAM_ZONE_01",
+        "dep": "skin",
+        "polygon": [[0.0,0.05],[0.5,0.05],[0.5,0.5],[0.0,0.5]]
+      },
+      {
+        "zone_id": "MAKEUP", "type": "shelf", "camera_id": "CAM_ZONE_01",
+        "dep": "makeup",
+        "polygon": [[0.5,0.05],[0.99,0.05],[0.99,0.5],[0.5,0.5]]
+      },
+      {
+        "zone_id": "HAIRCARE", "type": "shelf", "camera_id": "CAM_ZONE_01",
+        "dep": "hair",
+        "polygon": [[0.0,0.5],[0.33,0.5],[0.33,0.95],[0.0,0.95]]
+      },
+      {
+        "zone_id": "FRAGRANCE", "type": "shelf", "camera_id": "CAM_ZONE_01",
+        "dep": "fragrance",
+        "polygon": [[0.33,0.5],[0.66,0.5],[0.66,0.95],[0.33,0.95]]
+      },
+      {
+        "zone_id": "ACCESSORIES", "type": "shelf", "camera_id": "CAM_ZONE_01",
+        "dep": "personal-care",
+        "polygon": [[0.66,0.5],[0.99,0.5],[0.99,0.95],[0.66,0.95]]
+      },
+      {
+        "zone_id": "NAIL_FRAGRANCE", "type": "feature", "camera_id": "CAM_ZONE_02",
+        "dep": "fragrance",
+        "polygon": [[0.28,0.35],[0.4,0.35],[0.4,0.7],[0.28,0.7]]
+      },
+      {
+        "zone_id": "MAKEUP_UNIT_A", "type": "engagement", "camera_id": "CAM_ZONE_02",
+        "dep": "makeup",
+        "polygon": [[0.45,0.3],[0.65,0.3],[0.65,0.55],[0.45,0.55]]
+      },
+      {
+        "zone_id": "MAKEUP_UNIT_B", "type": "engagement", "camera_id": "CAM_ZONE_02",
+        "dep": "makeup",
+        "polygon": [[0.45,0.55],[0.65,0.55],[0.65,0.8],[0.45,0.8]]
+      },
+      {
+        "zone_id": "FOH", "type": "floor", "camera_id": "CAM_ZONE_02",
+        "dep": "general",
+        "polygon": [[0.0,0.0],[0.99,0.0],[0.99,0.99],[0.0,0.99]]
+      },
+      {
+        "zone_id": "BILLING", "type": "checkout", "camera_id": "CAM_BILLING_01",
+        "dep": "checkout",
+        "polygon": [[0.55,0.1],[0.8,0.1],[0.8,0.5],[0.55,0.5]]
+      },
+      {
+        "zone_id": "PMU", "type": "service", "camera_id": "CAM_BILLING_01",
+        "dep": "service",
+        "polygon": [[0.8,0.55],[0.99,0.55],[0.99,0.8],[0.8,0.8]]
+      }
+    ]
   },
-  "_note": "Zones derived from Brigade_Road_-_Store_layout.xlsx floor plan. Polygons are NORMALISED [0..1] per camera frame and must be re-calibrated to real CCTV via scripts/calibrate_zones.py. brand->zone mapping is cross-referenced with the POS export so /heatmap dwell can be compared against /funnel purchase.",
-  "pos_correlation": {
-    "billing_zone": "BILLING",
-    "window_seconds": 300
-  },
-  "cameras": [
-    {
-      "camera_id": "CAM_ENTRY_01",
-      "role": "entry",
-      "covers": [
-        "ENTRY"
-      ],
-      "file_hint": "CAM 1",
-      "entry_line": [
-        [
-          0.1,
-          0.55
-        ],
-        [
-          0.4,
-          0.92
-        ]
-      ],
-      "inbound": "into_store"
-    },
-    {
-      "camera_id": "CAM_NORTH_02",
-      "role": "floor",
-      "covers": [
-        "EB_KOREAN",
-        "THE_FACE_SHOP",
-        "GOOD_VIBES",
-        "DERMDOC",
-        "MINIMALIST",
-        "AQUALOGICA",
-        "LAKME_SKIN",
-        "ACCESSORIES"
-      ],
-      "file_hint": "CAM 2"
-    },
-    {
-      "camera_id": "CAM_FOH_03",
-      "role": "floor",
-      "covers": [
-        "NAIL_FRAGRANCE",
-        "MAKEUP_UNIT_A",
-        "MAKEUP_UNIT_B"
-      ],
-      "file_hint": "CAM 3",
-      "overlaps_with": [
-        "CAM_ENTRY_01",
-        "CAM_SOUTH_04"
-      ]
-    },
-    {
-      "camera_id": "CAM_SOUTH_04",
-      "role": "floor",
-      "covers": [
-        "MAYBELLINE",
-        "FACES_CANADA",
-        "LAKME",
-        "COLORBAR_SUGAR",
-        "SWISS_BEAUTY",
-        "RENEE_NYBAE",
-        "ALPS_GOODNESS",
-        "STREAX"
-      ],
-      "file_hint": "CAM 4"
-    },
-    {
-      "camera_id": "CAM_BILLING_05",
-      "role": "billing",
-      "covers": [
-        "BILLING",
-        "PMU"
-      ],
-      "file_hint": "CAM 5"
-    }
-  ],
-  "zones": [
-    {
-      "zone_id": "ENTRY",
-      "type": "threshold",
-      "camera_id": "CAM_ENTRY_01"
-    },
-    {
-      "zone_id": "EB_KOREAN",
-      "type": "shelf",
-      "camera_id": "CAM_NORTH_02",
-      "dep": "skin",
-      "brands": [
-        "Beauty of Joseon",
-        "COSRX",
-        "Round Lab"
-      ],
-      "polygon": [
-        [
-          0.02,
-          0.05
-        ],
-        [
-          0.14,
-          0.05
-        ],
-        [
-          0.14,
-          0.3
-        ],
-        [
-          0.02,
-          0.3
-        ]
-      ]
-    },
-    {
-      "zone_id": "THE_FACE_SHOP",
-      "type": "shelf",
-      "camera_id": "CAM_NORTH_02",
-      "dep": "skin",
-      "brands": [
-        "The Face Shop"
-      ],
-      "polygon": [
-        [
-          0.14,
-          0.05
-        ],
-        [
-          0.27,
-          0.05
-        ],
-        [
-          0.27,
-          0.3
-        ],
-        [
-          0.14,
-          0.3
-        ]
-      ]
-    },
-    {
-      "zone_id": "GOOD_VIBES",
-      "type": "shelf",
-      "camera_id": "CAM_NORTH_02",
-      "dep": "skin",
-      "brands": [
-        "Good Vibes"
-      ],
-      "polygon": [
-        [
-          0.27,
-          0.05
-        ],
-        [
-          0.4,
-          0.05
-        ],
-        [
-          0.4,
-          0.3
-        ],
-        [
-          0.27,
-          0.3
-        ]
-      ]
-    },
-    {
-      "zone_id": "DERMDOC",
-      "type": "shelf",
-      "camera_id": "CAM_NORTH_02",
-      "dep": "bath-and-body",
-      "brands": [
-        "DERMDOC"
-      ],
-      "polygon": [
-        [
-          0.4,
-          0.05
-        ],
-        [
-          0.53,
-          0.05
-        ],
-        [
-          0.53,
-          0.3
-        ],
-        [
-          0.4,
-          0.3
-        ]
-      ]
-    },
-    {
-      "zone_id": "MINIMALIST",
-      "type": "shelf",
-      "camera_id": "CAM_NORTH_02",
-      "dep": "skin",
-      "brands": [
-        "Minimalist"
-      ],
-      "polygon": [
-        [
-          0.53,
-          0.05
-        ],
-        [
-          0.66,
-          0.05
-        ],
-        [
-          0.66,
-          0.3
-        ],
-        [
-          0.53,
-          0.3
-        ]
-      ]
-    },
-    {
-      "zone_id": "AQUALOGICA",
-      "type": "shelf",
-      "camera_id": "CAM_NORTH_02",
-      "dep": "skin",
-      "brands": [
-        "Aqualogica"
-      ],
-      "polygon": [
-        [
-          0.66,
-          0.05
-        ],
-        [
-          0.79,
-          0.05
-        ],
-        [
-          0.79,
-          0.3
-        ],
-        [
-          0.66,
-          0.3
-        ]
-      ]
-    },
-    {
-      "zone_id": "LAKME_SKIN",
-      "type": "shelf",
-      "camera_id": "CAM_NORTH_02",
-      "dep": "skin",
-      "brands": [
-        "Lakme"
-      ],
-      "polygon": [
-        [
-          0.79,
-          0.05
-        ],
-        [
-          0.9,
-          0.05
-        ],
-        [
-          0.9,
-          0.3
-        ],
-        [
-          0.79,
-          0.3
-        ]
-      ]
-    },
-    {
-      "zone_id": "ACCESSORIES",
-      "type": "shelf",
-      "camera_id": "CAM_NORTH_02",
-      "dep": "personal-care",
-      "brands": [
-        "Cuffs N Lashes",
-        "Carmesi",
-        "GUBB"
-      ],
-      "polygon": [
-        [
-          0.9,
-          0.05
-        ],
-        [
-          0.99,
-          0.05
-        ],
-        [
-          0.99,
-          0.3
-        ],
-        [
-          0.9,
-          0.3
-        ]
-      ]
-    },
-    {
-      "zone_id": "NAIL_FRAGRANCE",
-      "type": "feature",
-      "camera_id": "CAM_FOH_03",
-      "dep": "fragrance",
-      "polygon": [
-        [
-          0.28,
-          0.35
-        ],
-        [
-          0.4,
-          0.35
-        ],
-        [
-          0.4,
-          0.7
-        ],
-        [
-          0.28,
-          0.7
-        ]
-      ]
-    },
-    {
-      "zone_id": "MAKEUP_UNIT_A",
-      "type": "engagement",
-      "camera_id": "CAM_FOH_03",
-      "dep": "makeup",
-      "polygon": [
-        [
-          0.45,
-          0.3
-        ],
-        [
-          0.65,
-          0.3
-        ],
-        [
-          0.65,
-          0.55
-        ],
-        [
-          0.45,
-          0.55
-        ]
-      ]
-    },
-    {
-      "zone_id": "MAKEUP_UNIT_B",
-      "type": "engagement",
-      "camera_id": "CAM_FOH_03",
-      "dep": "makeup",
-      "polygon": [
-        [
-          0.45,
-          0.55
-        ],
-        [
-          0.65,
-          0.55
-        ],
-        [
-          0.65,
-          0.8
-        ],
-        [
-          0.45,
-          0.8
-        ]
-      ]
-    },
-    {
-      "zone_id": "MAYBELLINE",
-      "type": "shelf",
-      "camera_id": "CAM_SOUTH_04",
-      "dep": "makeup",
-      "brands": [
-        "Maybelline"
-      ],
-      "polygon": [
-        [
-          0.12,
-          0.7
-        ],
-        [
-          0.24,
-          0.7
-        ],
-        [
-          0.24,
-          0.95
-        ],
-        [
-          0.12,
-          0.95
-        ]
-      ]
-    },
-    {
-      "zone_id": "FACES_CANADA",
-      "type": "shelf",
-      "camera_id": "CAM_SOUTH_04",
-      "dep": "makeup",
-      "brands": [
-        "Faces Canada"
-      ],
-      "polygon": [
-        [
-          0.24,
-          0.7
-        ],
-        [
-          0.37,
-          0.7
-        ],
-        [
-          0.37,
-          0.95
-        ],
-        [
-          0.24,
-          0.95
-        ]
-      ]
-    },
-    {
-      "zone_id": "LAKME",
-      "type": "shelf",
-      "camera_id": "CAM_SOUTH_04",
-      "dep": "makeup",
-      "brands": [
-        "Lakme"
-      ],
-      "polygon": [
-        [
-          0.37,
-          0.7
-        ],
-        [
-          0.47,
-          0.7
-        ],
-        [
-          0.47,
-          0.95
-        ],
-        [
-          0.37,
-          0.95
-        ]
-      ]
-    },
-    {
-      "zone_id": "COLORBAR_SUGAR",
-      "type": "shelf",
-      "camera_id": "CAM_SOUTH_04",
-      "dep": "makeup",
-      "brands": [
-        "Colorbar",
-        "Sugar"
-      ],
-      "polygon": [
-        [
-          0.47,
-          0.7
-        ],
-        [
-          0.6,
-          0.7
-        ],
-        [
-          0.6,
-          0.95
-        ],
-        [
-          0.47,
-          0.95
-        ]
-      ]
-    },
-    {
-      "zone_id": "SWISS_BEAUTY",
-      "type": "shelf",
-      "camera_id": "CAM_SOUTH_04",
-      "dep": "makeup",
-      "brands": [
-        "Swiss Beauty"
-      ],
-      "polygon": [
-        [
-          0.6,
-          0.7
-        ],
-        [
-          0.72,
-          0.7
-        ],
-        [
-          0.72,
-          0.95
-        ],
-        [
-          0.6,
-          0.95
-        ]
-      ]
-    },
-    {
-      "zone_id": "RENEE_NYBAE",
-      "type": "shelf",
-      "camera_id": "CAM_SOUTH_04",
-      "dep": "makeup",
-      "brands": [
-        "NY Bae",
-        "Renee"
-      ],
-      "polygon": [
-        [
-          0.72,
-          0.7
-        ],
-        [
-          0.84,
-          0.7
-        ],
-        [
-          0.84,
-          0.95
-        ],
-        [
-          0.72,
-          0.95
-        ]
-      ]
-    },
-    {
-      "zone_id": "ALPS_GOODNESS",
-      "type": "shelf",
-      "camera_id": "CAM_SOUTH_04",
-      "dep": "skin",
-      "brands": [
-        "Alps Goodness"
-      ],
-      "polygon": [
-        [
-          0.84,
-          0.7
-        ],
-        [
-          0.93,
-          0.7
-        ],
-        [
-          0.93,
-          0.95
-        ],
-        [
-          0.84,
-          0.95
-        ]
-      ]
-    },
-    {
-      "zone_id": "STREAX",
-      "type": "shelf",
-      "camera_id": "CAM_SOUTH_04",
-      "dep": "hair",
-      "brands": [
-        "Streax",
-        "Bare Anatomy"
-      ],
-      "polygon": [
-        [
-          0.93,
-          0.7
-        ],
-        [
-          0.99,
-          0.7
-        ],
-        [
-          0.99,
-          0.95
-        ],
-        [
-          0.93,
-          0.95
-        ]
-      ]
-    },
-    {
-      "zone_id": "PMU",
-      "type": "service",
-      "camera_id": "CAM_BILLING_05",
-      "dep": "service",
-      "polygon": [
-        [
-          0.8,
-          0.55
-        ],
-        [
-          0.99,
-          0.55
-        ],
-        [
-          0.99,
-          0.8
-        ],
-        [
-          0.8,
-          0.8
-        ]
-      ]
-    },
-    {
-      "zone_id": "BILLING",
-      "type": "checkout",
-      "camera_id": "CAM_BILLING_05",
-      "dep": "checkout",
-      "polygon": [
-        [
-          0.55,
-          0.1
-        ],
-        [
-          0.8,
-          0.1
-        ],
-        [
-          0.8,
-          0.5
-        ],
-        [
-          0.55,
-          0.5
-        ]
-      ]
-    }
-  ],
-  "billing_zone_id": "BILLING",
-  "entry_zone_id": "ENTRY",
-  "pos_correlation_window_seconds": 300,
-  "staff_roster_hint": [
-    "uniform: black apron + Purplle tee"
-  ]
-}
+  {
+    "store_id": "STORE_BLR_003",
+    "store_name": "Purplle Store 2, Bangalore",
+    "source_store_id": "ST1009",
+    "open_hours": { "open": "11:00", "close": "22:00", "tz": "Asia/Kolkata" },
+    "_note": "Store 2 — 4 cameras. Zones derived from store_2_layout.png floor plan. Polygons normalised [0..1].",
+    "pos_correlation": { "billing_zone": "BILLING", "window_seconds": 300 },
+    "billing_zone_id": "BILLING",
+    "entry_zone_id": "ENTRY",
+    "pos_correlation_window_seconds": 300,
+    "staff_roster_hint": ["uniform: black apron + Purplle tee"],
+    "cameras": [
+      {
+        "camera_id": "CAM_ENTRY_01",
+        "role": "entry",
+        "covers": ["ENTRY"],
+        "file_hint": "entry 1",
+        "entry_line": [[0.1,0.55],[0.4,0.92]],
+        "inbound": "into_store"
+      },
+      {
+        "camera_id": "CAM_ENTRY_02",
+        "role": "entry",
+        "covers": ["ENTRY"],
+        "file_hint": "entry 2",
+        "entry_line": [[0.6,0.55],[0.9,0.92]],
+        "inbound": "into_store"
+      },
+      {
+        "camera_id": "CAM_ZONE_01",
+        "role": "floor",
+        "covers": ["WALL_UNITS_LEFT","GONDOLA","MAKEUP_UNITS","WALL_UNITS_RIGHT","FOH"],
+        "file_hint": "zone"
+      },
+      {
+        "camera_id": "CAM_BILLING_01",
+        "role": "billing",
+        "covers": ["BILLING","CASH_COUNTER"],
+        "file_hint": "billing_area"
+      }
+    ],
+    "zones": [
+      { "zone_id": "ENTRY", "type": "threshold", "camera_id": "CAM_ENTRY_01" },
+      {
+        "zone_id": "WALL_UNITS_LEFT", "type": "shelf", "camera_id": "CAM_ZONE_01",
+        "dep": "skin",
+        "polygon": [[0.0,0.1],[0.15,0.1],[0.15,0.9],[0.0,0.9]]
+      },
+      {
+        "zone_id": "GONDOLA", "type": "feature", "camera_id": "CAM_ZONE_01",
+        "dep": "makeup",
+        "polygon": [[0.2,0.3],[0.5,0.3],[0.5,0.8],[0.2,0.8]]
+      },
+      {
+        "zone_id": "MAKEUP_UNITS", "type": "engagement", "camera_id": "CAM_ZONE_01",
+        "dep": "makeup",
+        "polygon": [[0.5,0.3],[0.75,0.3],[0.75,0.8],[0.5,0.8]]
+      },
+      {
+        "zone_id": "WALL_UNITS_RIGHT", "type": "shelf", "camera_id": "CAM_ZONE_01",
+        "dep": "makeup",
+        "polygon": [[0.82,0.1],[0.99,0.1],[0.99,0.9],[0.82,0.9]]
+      },
+      {
+        "zone_id": "FOH", "type": "floor", "camera_id": "CAM_ZONE_01",
+        "dep": "general",
+        "polygon": [[0.15,0.1],[0.82,0.1],[0.82,0.9],[0.15,0.9]]
+      },
+      {
+        "zone_id": "BILLING", "type": "checkout", "camera_id": "CAM_BILLING_01",
+        "dep": "checkout",
+        "polygon": [[0.3,0.1],[0.7,0.1],[0.7,0.6],[0.3,0.6]]
+      },
+      {
+        "zone_id": "CASH_COUNTER", "type": "service", "camera_id": "CAM_BILLING_01",
+        "dep": "checkout",
+        "polygon": [[0.7,0.1],[0.99,0.1],[0.99,0.5],[0.7,0.5]]
+      }
+    ]
+  }
+]
