@@ -29,7 +29,8 @@ def _normalize(raw: Dict[str, Any]) -> Dict[str, Any]:
     """Return the event in our schema. If it already matches ours, pass it
     through untouched; otherwise map the official sample_events fields onto ours."""
     if "visitor_id" in raw and str(raw.get("event_type", "")).isupper():
-        return raw  # already our native schema
+        raw.setdefault("confidence", 0.9)
+        return raw
 
     et = str(raw.get("event_type", "")).strip().lower()
     mapped_type = _TYPE_MAP.get(et, raw.get("event_type"))
