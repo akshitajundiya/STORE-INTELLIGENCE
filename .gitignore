@@ -15,3 +15,6 @@ data/events.jsonl
 clips/
 docs/store_floor_plan.png
 data/events.jsonl
+
+data/events_s2*.jsonl
+data/store_layout_backup.json
