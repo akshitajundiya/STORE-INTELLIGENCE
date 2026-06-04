@@ -24,7 +24,7 @@ async def _down(request: Request, exc: db.DBUnavailable):
 def _startup():
     db.init_db()
     db.load_pos_csv()
-    seed = os.environ.get("SEED_EVENTS", "/data/sample_events.jsonl")
+    seed = os.environ.get("SEED_EVENTS", "/data/events.jsonl")
     try:
         if not db.last_event_epoch_by_store() and os.path.exists(seed):
             with open(seed) as fh:
